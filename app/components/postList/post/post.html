@@ -1,0 +1,19 @@
+<md-card>
+  <md-card-title>
+    <md-card-title-text>
+      <div layout="row" layout-align="space-between">
+        <span class="md-headline">{{vm.post.title}}</span>
+        <div>
+          {{vm.post.author}}
+          <md-button class="md-icon-button" ng-click="vm.edit()" ng-show="vm.post.author" aria-label="More">
+            <md-icon class="icon ion-log-edit"></md-icon>
+          </md-button>
+        </div>
+      </div>
+      <span class="md-subhead">{{vm.post.subtitle}}</span>
+    </md-card-title-text>
+  </md-card-title>
+  <md-card-content>
+    {{vm.post.content}}
+  </md-card-content>
+</md-card>

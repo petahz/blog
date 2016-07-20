@@ -1,0 +1,23 @@
+<div layout="row" layout-align="center">
+  <md-card style="width: 50%">
+    <md-card-content>
+      <h3>{{vm.message}}</h3>
+      <h5 ng-show="vm.error" style="color: red;">{{vm.error}}</h5>
+      <form name="userForm" ng-submit="vm.submit()">
+        <div layout="column">
+          <md-input-container>
+            <label>Email</label>
+            <input ng-model="vm.user.email" type="email" required>
+          </md-input-container>
+          <md-input-container>
+            <label>Password</label>
+            <input ng-model="vm.user.password" type="password" required>
+          </md-input-container>
+        </div>
+        <div layout="row" layout-align="end">
+          <md-button class="md-primary md-raised" type="submit">Login</md-button>
+        </div>
+      </form>
+    </md-card-content>
+  </md-card>
+</div>

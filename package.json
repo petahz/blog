@@ -1,0 +1,21 @@
+{
+  "name": "blog-client",
+  "version": "1.0.0",
+  "description": "Blog client-side application built in Angular 1.5",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "webpack; webpack-dev-server --progress --colors"
+  },
+  "author": "Peter Tuan",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "^1.5.7",
+    "angular-animate": "^1.5.7",
+    "angular-aria": "^1.5.7",
+    "angular-material": "^1.1.0-rc.5",
+    "angular-ui-router": "^0.3.1"
+  }
+}

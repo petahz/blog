@@ -1,0 +1,17 @@
+<md-toolbar class="md-hue-2">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" aria-label="Settings" ng-disabled="true">
+      <md-icon class="icon ion-trophy"></md-icon>
+    </md-button>
+    <h2>
+      <span>Blogger</span>
+    </h2>
+    <span flex></span>
+    <md-button class="md-icon-button" aria-label="Favorite">
+      <md-icon md-svg-icon="img/icons/favorite.svg" style="color: greenyellow;"></md-icon>
+    </md-button>
+    <md-button class="md-icon-button" ng-click="vm.signout()" ng-show="vm.loggedIn()" aria-label="More">
+      <md-icon class="icon ion-log-out"></md-icon>
+    </md-button>
+  </div>
+</md-toolbar>
