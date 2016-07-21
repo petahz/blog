@@ -71506,17 +71506,6 @@
 	       content: '1. You need a poker face.', author: 'peter@blogger.co'}];
 	
 	      vm.postDialog = function(ev, mode) {
-	        var message = '';
-	
-	        switch (mode) {
-	          case 'create':
-	            message = 'Create New Post';
-	            break;
-	          case 'edit':
-	            message = 'Edit Your Post';
-	            break;
-	        }
-	
 	        $mdDialog.show({
 	            templateUrl: './app/components/postList/post/postDialog.html',
 	            controller: 'PostDialogCtrl',
@@ -71524,7 +71513,7 @@
 	            targetEvent: ev,
 	            clickOutsideToClose: false,
 	            hasBackdrop: true,
-	            locals: {message: message},
+	            locals: {mode: mode},
 	            bindToController: true
 	        })
 	      }
@@ -71559,7 +71548,17 @@
 	  .controller('PostDialogCtrl', ['$mdDialog', function($mdDialog) {
 	    var vm = this;
 	
-	    // vm.message is set through locals
+	    // vm.mode is set through locals
+	    switch (vm.mode) {
+	      case 'create':
+	        vm.message = 'Create New Post';
+	        vm.buttonLabel = 'Create';
+	        break;
+	      case 'edit':
+	        vm.message = 'Edit Your Post';
+	        vm.buttonLabel = 'Update';
+	        break;
+	    }
 	
 	    vm.close = function() {
 	      $mdDialog.hide();

@@ -6,5 +6,24 @@
               <md-icon class="icon ion-close"></md-icon>
             </md-button>
         </div>
+        <form name="postForm" ng-submit="vm.submit()">
+          <div layout="column">
+            <md-input-container>
+              <label>Title</label>
+              <input ng-model="vm.post.title" type="text" required>
+            </md-input-container>
+            <md-input-container>
+              <label>Subtitle (optional)</label>
+              <input ng-model="vm.post.subtitle" type="text">
+            </md-input-container>
+            <md-input-container class="md-block">
+              <label>Content</label>
+              <textarea ng-model="vm.post.content" md-maxlength="500" rows="5" md-select-on-focus></textarea>
+            </md-input-container>
+          </div>
+          <div layout="row" layout-align="end">
+            <md-button class="md-primary md-raised" type="submit">{{vm.buttonLabel}}</md-button>
+          </div>
+        </form>
     </md-dialog-content>
 </md-dialog>

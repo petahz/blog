@@ -9,17 +9,6 @@
        content: '1. You need a poker face.', author: 'peter@blogger.co'}];
 
       vm.postDialog = function(ev, mode) {
-        var message = '';
-
-        switch (mode) {
-          case 'create':
-            message = 'Create New Post';
-            break;
-          case 'edit':
-            message = 'Edit Your Post';
-            break;
-        }
-
         $mdDialog.show({
             templateUrl: './app/components/postList/post/postDialog.html',
             controller: 'PostDialogCtrl',
@@ -27,7 +16,7 @@
             targetEvent: ev,
             clickOutsideToClose: false,
             hasBackdrop: true,
-            locals: {message: message},
+            locals: {mode: mode},
             bindToController: true
         })
       }
