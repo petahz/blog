@@ -25,6 +25,9 @@
           reject();
         });
       },
+      getUsers: function() {
+        return users;
+      },
       createUser: function(email, password) {
         _currentUser = {email: email, password: password};
         users.push(_currentUser);
