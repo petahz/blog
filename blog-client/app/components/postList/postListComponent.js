@@ -2,12 +2,12 @@
   angular.module('post', [])
   .component('postList', {
     templateUrl: './app/components/postList/postList.html',
-    controller: function($mdDialog) {
+    controller: function($mdDialog, $mdToast, PostService) {
       var vm = this;
 
       vm.postList = PostService.getPosts();
 
-      vm.postDialog = function(ev, mode) {
+      vm.postDialog = function(ev, mode, post) {
         $mdDialog.show({
             templateUrl: './app/components/postList/post/postDialog.html',
             controller: 'PostDialogCtrl',
@@ -15,7 +15,7 @@
             targetEvent: ev,
             clickOutsideToClose: false,
             hasBackdrop: true,
-            locals: {mode: mode},
+            locals: {mode: mode, post: post},
             bindToController: true
         }).then(function(post) {
           if (post) {

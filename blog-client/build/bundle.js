@@ -56,6 +56,7 @@
 	  __webpack_require__(14);
 	  __webpack_require__(15);
 	  __webpack_require__(16);
+	  __webpack_require__(17);
 	
 	})();
 
@@ -71499,13 +71500,12 @@
 	  angular.module('post', [])
 	  .component('postList', {
 	    templateUrl: './app/components/postList/postList.html',
-	    controller: function($mdDialog) {
+	    controller: function($mdDialog, $mdToast, PostService) {
 	      var vm = this;
 	
-	      vm.postList = [{title: 'How to Win in Poker', subtitle: 'Tips from a professional',
-	       content: '1. You need a poker face.', author: 'peter@blogger.co'}];
+	      vm.postList = PostService.getPosts();
 	
-	      vm.postDialog = function(ev, mode) {
+	      vm.postDialog = function(ev, mode, post) {
 	        $mdDialog.show({
 	            templateUrl: './app/components/postList/post/postDialog.html',
 	            controller: 'PostDialogCtrl',
@@ -71513,9 +71513,34 @@
 	            targetEvent: ev,
 	            clickOutsideToClose: false,
 	            hasBackdrop: true,
-	            locals: {mode: mode},
+	            locals: {mode: mode, post: post},
 	            bindToController: true
-	        })
+	        }).then(function(post) {
+	          if (post) {
+	            switch (mode) {
+	              case 'create':
+	                PostService.create(post).then(function() {
+	                  $mdToast.show(
+	                    $mdToast.simple()
+	                      .textContent('Post created.')
+	                      .position('top right')
+	                      .hideDelay(3000)
+	                  );
+	                });
+	                break;
+	              case 'edit':
+	                PostService.update(post).then(function() {
+	                  $mdToast.show(
+	                    $mdToast.simple()
+	                      .textContent('Post updated.')
+	                      .position('top right')
+	                      .hideDelay(3000)
+	                  );
+	                });
+	                break;
+	            }
+	          }
+	        });
 	      }
 	    },
 	    controllerAs: 'vm'
@@ -71560,6 +71585,10 @@
 	        break;
 	    }
 	
+	    vm.submit = function() {
+	      $mdDialog.hide(vm.post);
+	    }
+	
 	    vm.close = function() {
 	      $mdDialog.hide();
 	    }
@@ -71568,6 +71597,39 @@
 
 /***/ },
 /* 15 */
+/***/ function(module, exports) {
+
+	(function() {
+	  angular.module('post')
+	  .factory('PostService', ['$q', function($q) {
+	    var posts = [{id: 1, title: 'How to Win in Poker', subtitle: 'Tips from a professional',
+	       content: '1. You need a poker face.', author: 'peter@blogger.co'}];
+	
+	    return {
+	      getPosts: function() {
+	        return posts;
+	      },
+	      create: function(post) {
+	        return $q(function(resolve, reject) {
+	          posts.unshift(post);
+	          resolve();
+	        });
+	      },
+	      update: function(post) {
+	        return $q(function(resolve, reject) {
+	          posts.forEach(function(existingPost) {
+	            if (post.id === existingPost.id) {
+	              existingPost = post;
+	            }
+	          });
+	        });
+	      }
+	    }
+	  }]);
+	})();
+
+/***/ },
+/* 16 */
 /***/ function(module, exports) {
 
 	(function() {
@@ -71616,7 +71678,7 @@
 	})();
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports) {
 
 	(function() {

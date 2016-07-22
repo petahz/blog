@@ -5,7 +5,7 @@
         <span class="md-headline">{{vm.post.title}}</span>
         <div>
           {{vm.post.author}}
-          <md-button class="md-icon-button" ng-click="vm.edit({ev: $event, mode: 'edit'})" ng-show="vm.post.author" aria-label="More">
+          <md-button class="md-icon-button" ng-click="vm.edit({ev: $event, mode: 'edit', post: vm.post})" ng-show="vm.post.author" aria-label="More">
             <md-icon class="icon ion-edit" style="font-size: 16px;"></md-icon>
           </md-button>
         </div>

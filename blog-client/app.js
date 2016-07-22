@@ -8,6 +8,7 @@
   require('./app/components/postList/postListComponent.js');
   require('./app/components/postList/post/postComponent.js');
   require('./app/components/postList/post/postDialogController.js');
+  require('./app/components/postList/postService.js');
   require('./app/components/user/userForm/userFormComponents.js');
   require('./app/components/user/userService.js');
 

@@ -1,5 +1,5 @@
 (function() {
-  angular.module('user')
+  angular.module('post')
   .factory('PostService', ['$q', function($q) {
     var posts = [{id: 1, title: 'How to Win in Poker', subtitle: 'Tips from a professional',
        content: '1. You need a poker face.', author: 'peter@blogger.co'}];
