@@ -34,6 +34,8 @@
         .accentPalette('amber')
         .warnPalette('red');;
   }])
+
+  .value('BlogApiUrl', 'http://localhost:1337')
   
   .run(function ($rootScope, $state, UserService) {
     $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){

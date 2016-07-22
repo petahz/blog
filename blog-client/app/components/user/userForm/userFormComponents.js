@@ -11,8 +11,8 @@
       vm.submit = function() {
         UserService.authenticate(vm.user.email, vm.user.password).then(function() {
           $state.go('posts');
-        }).catch(function() {
-          vm.error = 'Invalid user.';
+        }).catch(function(response) {
+          vm.error = response.data.error;
         });
       }
     },

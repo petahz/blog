@@ -36,7 +36,12 @@ module.exports.routes = {
     view: 'homepage'
   },
 
-  'post /login': 'AuthController.login',
+  'post /login': {
+    target: 'AuthController.login',
+    cors: {
+      origin: 'http://localhost:8080',
+    }
+  },
 
   '/logout': 'AuthController.logout'
 

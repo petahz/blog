@@ -71455,6 +71455,8 @@
 	        .accentPalette('amber')
 	        .warnPalette('red');;
 	  }])
+	
+	  .value('BlogApiUrl', 'http://localhost:1337')
 	  
 	  .run(function ($rootScope, $state, UserService) {
 	    $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
@@ -71647,8 +71649,8 @@
 	      vm.submit = function() {
 	        UserService.authenticate(vm.user.email, vm.user.password).then(function() {
 	          $state.go('posts');
-	        }).catch(function() {
-	          vm.error = 'Invalid user.';
+	        }).catch(function(response) {
+	          vm.error = response.data.error;
 	        });
 	      }
 	    },
@@ -71686,7 +71688,7 @@
 
 	(function() {
 	  angular.module('user')
-	  .factory('UserService', ['$q', function($q) {
+	  .factory('UserService', ['$q', '$http', 'BlogApiUrl', function($q, $http, BlogApiUrl) {
 	    var _authenticated = false;
 	    var _currentUser = {};
 	    // temporary until we have a backend
@@ -71698,17 +71700,10 @@
 	      },
 	      authenticate: function (email, password) {
 	        console.log('email: ', email, ' password: ', password);
-	        return $q(function(resolve, reject) {
-	          // todo: should call a backend
-	          users.forEach(function(user) {
-	            if (user.email === email && user.password === password) {
-	              _authenticated = true;
-	              _currentUser = user;
-	              resolve();
-	            }
-	          });
 	
-	          reject();
+	        return $http.post(BlogApiUrl + '/login', {email: email, password: password}).then(function(user) {
+	          _authenticated = true;
+	          _currentUser = user;
 	        });
 	      },
 	      getUsers: function() {
