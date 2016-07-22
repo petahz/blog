@@ -3,7 +3,8 @@
   .component('post', {
     bindings: {
       post: '<',
-      edit: '&'
+      edit: '&',
+      currentUser: '<user'
     },
     templateUrl: './app/components/postList/post/post.html',
     controller: function() {},

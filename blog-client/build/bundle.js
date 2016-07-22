@@ -71500,10 +71500,11 @@
 	  angular.module('post', [])
 	  .component('postList', {
 	    templateUrl: './app/components/postList/postList.html',
-	    controller: function($mdDialog, $mdToast, PostService) {
+	    controller: function($mdDialog, $mdToast, PostService, UserService) {
 	      var vm = this;
 	
 	      vm.postList = PostService.getPosts();
+	      vm.currentUser = UserService.getCurrentUser();
 	
 	      vm.postDialog = function(ev, mode, post) {
 	        $mdDialog.show({
@@ -71556,7 +71557,8 @@
 	  .component('post', {
 	    bindings: {
 	      post: '<',
-	      edit: '&'
+	      edit: '&',
+	      currentUser: '<user'
 	    },
 	    templateUrl: './app/components/postList/post/post.html',
 	    controller: function() {},
@@ -71640,6 +71642,7 @@
 	      var vm = this;
 	
 	      vm.message = 'Login to use Blogger';
+	      vm.loginForm = true;
 	
 	      vm.submit = function() {
 	        UserService.authenticate(vm.user.email, vm.user.password).then(function() {
@@ -71687,7 +71690,7 @@
 	    var _authenticated = false;
 	    var _currentUser = {};
 	    // temporary until we have a backend
-	    var users = [{email: 'peter@blogger.co', password: 'peterblogger'}];
+	    var _users = [];
 	
 	    return {
 	      isAuthenticated: function() {
@@ -71709,11 +71712,15 @@
 	        });
 	      },
 	      getUsers: function() {
-	        return users;
+	        _users = JSON.parse(localStorage.get("blog.users")) || [];
+	        return _users;
+	      },
+	      getCurrentUser: function() {
+	        return _currentUser;
 	      },
 	      createUser: function(email, password) {
 	        _currentUser = {email: email, password: password};
-	        users.push(_currentUser);
+	        _users.push(_currentUser);
 	      },
 	      logout: function() {
 	        _authenticated = false;

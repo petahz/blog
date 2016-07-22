@@ -2,10 +2,11 @@
   angular.module('post', [])
   .component('postList', {
     templateUrl: './app/components/postList/postList.html',
-    controller: function($mdDialog, $mdToast, PostService) {
+    controller: function($mdDialog, $mdToast, PostService, UserService) {
       var vm = this;
 
       vm.postList = PostService.getPosts();
+      vm.currentUser = UserService.getCurrentUser();
 
       vm.postDialog = function(ev, mode, post) {
         $mdDialog.show({

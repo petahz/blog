@@ -13,6 +13,15 @@ module.exports = {
       size: 128,
       required: true
     },
+    subtitle: {
+      type: 'string',
+      size: 128
+    },
+    content: {
+      type: 'string',
+      size: 512,
+      required: true
+    },
     author: {
       model: 'User',
       required: true

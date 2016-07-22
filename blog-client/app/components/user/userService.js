@@ -4,7 +4,7 @@
     var _authenticated = false;
     var _currentUser = {};
     // temporary until we have a backend
-    var users = [{email: 'peter@blogger.co', password: 'peterblogger'}];
+    var _users = [];
 
     return {
       isAuthenticated: function() {
@@ -26,11 +26,15 @@
         });
       },
       getUsers: function() {
-        return users;
+        _users = JSON.parse(localStorage.get("blog.users")) || [];
+        return _users;
+      },
+      getCurrentUser: function() {
+        return _currentUser;
       },
       createUser: function(email, password) {
         _currentUser = {email: email, password: password};
-        users.push(_currentUser);
+        _users.push(_currentUser);
       },
       logout: function() {
         _authenticated = false;

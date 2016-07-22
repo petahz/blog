@@ -6,6 +6,7 @@
       var vm = this;
 
       vm.message = 'Login to use Blogger';
+      vm.loginForm = true;
 
       vm.submit = function() {
         UserService.authenticate(vm.user.email, vm.user.password).then(function() {
