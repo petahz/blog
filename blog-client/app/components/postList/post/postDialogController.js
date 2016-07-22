@@ -15,6 +15,10 @@
         break;
     }
 
+    vm.submit = function() {
+      $mdDialog.hide(vm.post);
+    }
+
     vm.close = function() {
       $mdDialog.hide();
     }

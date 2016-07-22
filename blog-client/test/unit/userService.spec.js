@@ -37,4 +37,15 @@ describe('service: user', function() {
       })
 		});
 	});
+
+	describe('create', function() {
+		it('should create a new user', function() {
+			UserService.create('newuser@blogger.co', 'newPassword').finally(function() {
+				var users = UserService.getUsers();
+				var lastUser = users[users.length-1];
+
+				expect(lastUser.email).toBe('newuser@blogger.co');
+			});
+		});
+	});
 });

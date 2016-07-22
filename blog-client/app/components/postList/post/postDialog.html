@@ -6,7 +6,7 @@
               <md-icon class="icon ion-close"></md-icon>
             </md-button>
         </div>
-        <form name="postForm" ng-submit="vm.submit()">
+        <form name="postForm" ng-submit="postForm.$valid && vm.submit()">
           <div layout="column">
             <md-input-container>
               <label>Title</label>

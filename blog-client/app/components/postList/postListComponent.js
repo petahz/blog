@@ -5,8 +5,7 @@
     controller: function($mdDialog) {
       var vm = this;
 
-      vm.postList = [{title: 'How to Win in Poker', subtitle: 'Tips from a professional',
-       content: '1. You need a poker face.', author: 'peter@blogger.co'}];
+      vm.postList = PostService.getPosts();
 
       vm.postDialog = function(ev, mode) {
         $mdDialog.show({
@@ -18,7 +17,32 @@
             hasBackdrop: true,
             locals: {mode: mode},
             bindToController: true
-        })
+        }).then(function(post) {
+          if (post) {
+            switch (mode) {
+              case 'create':
+                PostService.create(post).then(function() {
+                  $mdToast.show(
+                    $mdToast.simple()
+                      .textContent('Post created.')
+                      .position('top right')
+                      .hideDelay(3000)
+                  );
+                });
+                break;
+              case 'edit':
+                PostService.update(post).then(function() {
+                  $mdToast.show(
+                    $mdToast.simple()
+                      .textContent('Post updated.')
+                      .position('top right')
+                      .hideDelay(3000)
+                  );
+                });
+                break;
+            }
+          }
+        });
       }
     },
     controllerAs: 'vm'
