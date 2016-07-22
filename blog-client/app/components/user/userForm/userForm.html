@@ -5,6 +5,16 @@
       <h5 ng-show="vm.error" style="color: red;">{{vm.error}}</h5>
       <form name="userForm" ng-submit="vm.submit()">
         <div layout="column">
+          <div ng-if="vm.signupForm">
+            <md-input-container>
+              <label>First Name</label>
+              <input ng-model="vm.user.firstName" type="text" required>
+            </md-input-container>
+            <md-input-container>
+              <label>Last Name</label>
+              <input ng-model="vm.user.lastName" type="text">
+            </md-input-container>
+          </div>
           <md-input-container>
             <label>Email</label>
             <input ng-model="vm.user.email" type="email" required>
@@ -15,7 +25,7 @@
           </md-input-container>
         </div>
         <div layout="row" layout-align="end">
-          <md-button class="md-primary md-raised" type="submit">Login</md-button>
+          <md-button class="md-primary md-raised" type="submit">{{vm.submitLabel}}</md-button>
         </div>
       </form>
       <i ng-if="vm.loginForm">Not a registered user? Click <a href ui-sref="signup">here</a> to sign up.</i>

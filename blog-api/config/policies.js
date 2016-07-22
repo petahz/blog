@@ -33,7 +33,8 @@ module.exports.policies = {
   },
 
   'UserController': {
-    '*': 'sessionAuth'
+    '*': 'sessionAuth',
+    'create': []
   },
 
   /***************************************************************************

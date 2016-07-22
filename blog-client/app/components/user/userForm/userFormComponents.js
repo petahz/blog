@@ -7,9 +7,10 @@
 
       vm.message = 'Login to use Blogger';
       vm.loginForm = true;
+      vm.submitLabel = "Login";
 
       vm.submit = function() {
-        UserService.authenticate(vm.user.email, vm.user.password).then(function() {
+        UserService.authenticate(vm.user).then(function() {
           $state.go('posts');
         }).catch(function(response) {
           vm.error = response.data.error;
@@ -23,10 +24,12 @@
     controller: function($state, $mdToast, UserService) {
       var vm = this;
 
-      vm.message = 'Signup to use Blogger';
+      vm.message = 'Sign up to use Blogger';
+      vm.signupForm = true;
+      vm.submitLabel = "Sign up";
 
       vm.submit = function() {
-        UserService.createUser(vm.user.email, vm.user.password).then(function() {
+        UserService.createUser(vm.user).then(function() {
           $mdToast.show(
             $mdToast.simple()
               .textContent('Account created.')

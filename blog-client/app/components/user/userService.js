@@ -10,10 +10,10 @@
       isAuthenticated: function() {
         return _authenticated;
       },
-      authenticate: function (email, password) {
-        console.log('email: ', email, ' password: ', password);
+      authenticate: function (user) {
+        console.log('email: ', user.email, ' password: ', user.password);
 
-        return $http.post(BlogApiUrl + '/login', {email: email, password: password}).then(function(user) {
+        return $http.post(BlogApiUrl + '/login', user).then(function(user) {
           _authenticated = true;
           _currentUser = user;
         });
@@ -25,9 +25,11 @@
       getCurrentUser: function() {
         return _currentUser;
       },
-      createUser: function(email, password) {
-        _currentUser = {email: email, password: password};
-        _users.push(_currentUser);
+      createUser: function(user) {
+        return $http.post(BlogApiUrl + '/user', user).then(function(user) {
+          _authenticated = true;
+          _currentUser = user;
+        });
       },
       logout: function() {
         _authenticated = false;
