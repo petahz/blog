@@ -35,6 +35,13 @@ module.exports.routes = {
   '/': {
     view: 'homepage'
   },
+  
+  'post /user': {
+    target: 'UserController.create',
+    cors: {
+      origin: 'http://localhost:8080'
+    }
+  },
 
   'post /login': {
     target: 'AuthController.login',
