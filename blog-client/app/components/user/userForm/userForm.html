@@ -3,7 +3,7 @@
     <md-card-content>
       <h3>{{vm.message}}</h3>
       <h5 ng-show="vm.error" style="color: red;">{{vm.error}}</h5>
-      <form name="userForm" ng-submit="vm.submit()">
+      <form name="userForm" ng-submit="userForm.$valid && vm.submit()">
         <div layout="column">
           <div ng-if="vm.signupForm">
             <md-input-container>

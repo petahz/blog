@@ -71456,7 +71456,10 @@
 	        .warnPalette('red');;
 	  }])
 	
-	  .value('BlogApiUrl', 'http://localhost:1337')
+	  .value('BlogApiUrl', {host:'http://localhost:1337',
+	                        login: this.host + '/login',
+	                        post: this.host + '/post',
+	                        user: this.host + '/user'})
 	  
 	  .run(function ($rootScope, $state, UserService) {
 	    $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
@@ -71605,7 +71608,7 @@
 
 	(function() {
 	  angular.module('post')
-	  .factory('PostService', ['$q', function($q) {
+	  .factory('PostService', ['$q', '$http', function($q, $http) {
 	    var posts = [{id: 1, title: 'How to Win in Poker', subtitle: 'Tips from a professional',
 	       content: '1. You need a poker face.', author: 'peter@blogger.co'}];
 	
@@ -71704,7 +71707,7 @@
 	      authenticate: function (user) {
 	        console.log('email: ', user.email, ' password: ', user.password);
 	
-	        return $http.post(BlogApiUrl + '/login', user).then(function(user) {
+	        return $http.post(BlogApiUrl.login, user).then(function(user) {
 	          _authenticated = true;
 	          _currentUser = user;
 	        });
@@ -71717,7 +71720,7 @@
 	        return _currentUser;
 	      },
 	      createUser: function(user) {
-	        return $http.post(BlogApiUrl + '/user', user).then(function(user) {
+	        return $http.post(BlogApiUrl.user, user).then(function(user) {
 	          _authenticated = true;
 	          _currentUser = user;
 	        });

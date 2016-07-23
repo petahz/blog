@@ -5,7 +5,9 @@
     controller: function($mdDialog, $mdToast, PostService, UserService) {
       var vm = this;
 
-      vm.postList = PostService.getPosts();
+      PostService.getPosts().then(function(posts) {
+        vm.postList = posts;
+      });
       vm.currentUser = UserService.getCurrentUser();
 
       vm.postDialog = function(ev, mode, post) {
@@ -20,6 +22,8 @@
             bindToController: true
         }).then(function(post) {
           if (post) {
+            post.author = vm.currentUser.id;
+            
             switch (mode) {
               case 'create':
                 PostService.create(post).then(function() {

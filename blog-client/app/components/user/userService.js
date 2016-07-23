@@ -19,8 +19,7 @@
         });
       },
       getUsers: function() {
-        _users = JSON.parse(localStorage.get("blog.users")) || [];
-        return _users;
+        return $http.get(BlogApiUrl + '/user');
       },
       getCurrentUser: function() {
         return _currentUser;
