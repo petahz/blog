@@ -71456,10 +71456,7 @@
 	        .warnPalette('red');;
 	  }])
 	
-	  .value('BlogApiUrl', {host:'http://localhost:1337',
-	                        login: this.host + '/login',
-	                        post: this.host + '/post',
-	                        user: this.host + '/user'})
+	  .value('BlogApiUrl', 'http://localhost:1337')
 	  
 	  .run(function ($rootScope, $state, UserService) {
 	    $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams){
@@ -71508,7 +71505,9 @@
 	    controller: function($mdDialog, $mdToast, PostService, UserService) {
 	      var vm = this;
 	
-	      vm.postList = PostService.getPosts();
+	      PostService.getPosts().then(function(posts) {
+	        vm.postList = posts;
+	      });
 	      vm.currentUser = UserService.getCurrentUser();
 	
 	      vm.postDialog = function(ev, mode, post) {
@@ -71523,6 +71522,8 @@
 	            bindToController: true
 	        }).then(function(post) {
 	          if (post) {
+	            post.author = vm.currentUser.id;
+	            
 	            switch (mode) {
 	              case 'create':
 	                PostService.create(post).then(function() {
@@ -71608,28 +71609,22 @@
 
 	(function() {
 	  angular.module('post')
-	  .factory('PostService', ['$q', '$http', function($q, $http) {
+	  .factory('PostService', ['$q', '$http', 'BlogApiUrl', function($q, $http, BlogApiUrl) {
 	    var posts = [{id: 1, title: 'How to Win in Poker', subtitle: 'Tips from a professional',
 	       content: '1. You need a poker face.', author: 'peter@blogger.co'}];
 	
 	    return {
 	      getPosts: function() {
-	        return posts;
+	        return $http.get(BlogApiUrl + '/post');
 	      },
 	      create: function(post) {
-	        return $q(function(resolve, reject) {
-	          posts.unshift(post);
-	          resolve();
-	        });
+	        return $http.post(BlogApiUrl + '/post', post);
 	      },
 	      update: function(post) {
-	        return $q(function(resolve, reject) {
-	          posts.forEach(function(existingPost) {
-	            if (post.id === existingPost.id) {
-	              existingPost = post;
-	            }
-	          });
-	        });
+	        return $http.put(BlogApiUrl + '/post/' + post.id, post);
+	      },
+	      delete: function(post) {
+	        return $http.delete(BlogApiUrl + '/post', post);
 	      }
 	    }
 	  }]);
@@ -71707,20 +71702,19 @@
 	      authenticate: function (user) {
 	        console.log('email: ', user.email, ' password: ', user.password);
 	
-	        return $http.post(BlogApiUrl.login, user).then(function(user) {
+	        return $http.post(BlogApiUrl + '/login', user).then(function(user) {
 	          _authenticated = true;
 	          _currentUser = user;
 	        });
 	      },
 	      getUsers: function() {
-	        _users = JSON.parse(localStorage.get("blog.users")) || [];
-	        return _users;
+	        return $http.get(BlogApiUrl + '/user');
 	      },
 	      getCurrentUser: function() {
 	        return _currentUser;
 	      },
 	      createUser: function(user) {
-	        return $http.post(BlogApiUrl.user, user).then(function(user) {
+	        return $http.post(BlogApiUrl + '/user', user).then(function(user) {
 	          _authenticated = true;
 	          _currentUser = user;
 	        });

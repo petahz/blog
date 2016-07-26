@@ -1,18 +1,21 @@
 describe('service: user', function() {
-	var UserService, mockBackend, users;
+	var UserService, mockBackend, users, BlogApiUrl;
 
-	beforeEach(module('mavrckApp'));
+	beforeEach(angular.mock.module('blogClientApp'));
 
-	beforeEach(inject(function(_UserService_, _$httpBackend_) {
+	beforeEach(inject(function(_UserService_, _$httpBackend_, _BlogApiUrl_) {
 		UserService = _UserService_;
 		mockBackend = _$httpBackend_;
+		BlogApiUrl = _BlogApiUrl_;
 
-    users = UserService.getUsers();
+		mockBackend.whenGET(BlogApiUrl + '/user')
+		.respond([{email: 'peter@blogger.co', password: 'peterblogger'}]);
 
-		// This will be used to mock the API response
-		// var users = [{email: 'peter@blogger.co', password: 'peterblogger'}];
-		// mockBackend.whenGET('/users')
-		// .respond(users);
+		mockBackend.whenPOST(BlogApiUrl + '/login')
+		.respond([{email: 'peter@blogger.co', password: 'peterblogger'}]);
+
+		users = UserService.getUsers();
+		mockBackend.flush();
 	}));
 
 	describe('isAuthenticated', function() {
@@ -24,10 +27,12 @@ describe('service: user', function() {
 
   describe('authenticate', function() {
 		it('should set authenticated to true when passing in a valid user', function() {
-      UserService.authenticate(users[0].email, users[0].password).finally(function() {
+      UserService.authenticate('peter@blogger.co', 'peterblogger').finally(function() {
         var value = UserService.isAuthenticated();
 			  expect(value).toBe(true);
-      })
+      });
+
+			mockBackend.flush();
 		});
 
 		it('should keep authenticated as false when passing in an invalid user', function() {
@@ -40,7 +45,7 @@ describe('service: user', function() {
 
 	describe('create', function() {
 		it('should create a new user', function() {
-			UserService.create('newuser@blogger.co', 'newPassword').finally(function() {
+			UserService.createUser('newuser@blogger.co', 'newPassword').finally(function() {
 				var users = UserService.getUsers();
 				var lastUser = users[users.length-1];
 
